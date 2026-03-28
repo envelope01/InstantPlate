@@ -18,7 +18,7 @@ InstantPlate is a **MERN Stack** food ordering platform that allows users to ord
 
 ### **Clone the Repository**
 ```sh
-git clone https://github.com/VivekBalmiki/InstantPlate.git
+git clone https://github.com/envelope01/InstantPlate.git
 cd InstantPlate
 ```
 
