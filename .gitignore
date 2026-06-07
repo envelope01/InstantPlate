@@ -1,0 +1,13 @@
+# Dependencies
+**/node_modules/
+
+# Environment variables (Crucial for backend security!)
+**/.env
+
+# Production builds
+**/build/
+**/dist/
+
+# OS logs
+.DS_Store
+Thumbs.db
