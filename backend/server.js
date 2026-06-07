@@ -1,46 +1,26 @@
 // Import required modules
 const express = require('express');
-const connectToMongo = require('./db'); // Import the database connection function
+const connectToMongo = require('./db');
 const cors = require('cors');
-// const authRoutes = require('./routes/auth'); // Import the auth routes
 const authRouter = require('./routes/auth');
 
-const User = require('./models/user'); // Assuming your user model is defined in this path
+const User = require('./models/user');
 const Restaurant = require('./models/restaurant')
 
 const bcrypt = require('bcryptjs');
 
-// const loginRoutes = require('../frontend/src/components/Login')
-// const addRestaurantRoutes = require('../frontend/src/components/AddRestaurant')
-// const signupRoutes = require('../frontend/src/components/Signup')
-
-
-// Create an instance of the Express app
 const app = express();
 
 app.use('/api', authRouter);
 
-// Set the port number
 const port = 5000;
 
 // Middleware
-app.use(express.json()); // Parse JSON requests
-app.use(cors()); // Enable CORS
+app.use(express.json()); 
+app.use(cors()); 
 
 // Connect to MongoDB
 connectToMongo();
-
-// Define routes
-// app.use('/api/auth', authRoutes); // Mount auth routes
-
-// app.use('/api/login', loginRoutes);
-// app.use('/api/signup', signupRoutes);
-// app.use('/api/addRestaurant', addRestaurantRoutes);
-
-
-
-
-// Routes
 
 // ===========================
 // Signup Route
