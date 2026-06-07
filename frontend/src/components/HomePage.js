@@ -1,115 +1,133 @@
-import React from 'react';
-import { Carousel, Card, Button } from 'react-bootstrap';
-import { useNavigate } from 'react-router-dom'; 
-import { FaHotel } from 'react-icons/fa';
-import { GiNoodles, GiFireBowl } from 'react-icons/gi';
-import { CiCoffeeCup } from "react-icons/ci";
-
-
-// import Navbar from './Navbar';
-
-
-import slide1 from '../assets/images/1slide.jpg';
-import slide2 from '../assets/images/2slide.jpg';
-import slide3 from '../assets/images/3slide.jpg';
-import hotelImg from '../assets/images/hotel.jpg';
-import dhabaImg from '../assets/images/dhaba.jpg';
-import chineseImg from '../assets/images/chinese.jpg';
-import cafeImg from '../assets/images/cafe.jpg';
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { FaQrcode, FaClipboardList, FaBell, FaStar, FaArrowRight } from 'react-icons/fa';
+import Signup from './Signup';
 import '../App.css';
 
-const HomePage = () => {
-    const navigate = useNavigate(); // Use navigate instead of history
+export default function HomePage() {
+  const navigate = useNavigate();
+  const [showSignup, setShowSignup] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-    const cardsData = [
-        {
-            img: hotelImg,
-            name: 'Hotel',
-            location: 'City Center',
-            icon: <FaHotel size={50} color="" />,
-            link: '/hotel'  // Link to the specific hotel page
-        },
-        {
-            img: dhabaImg,
-            name: 'Dhaba',
-            location: 'Highway 47',
-            icon: <GiFireBowl size={50} color="" />,
-            link: '/dhaba'  // Link to the specific hotel page
-        },
-        {
-            img: chineseImg,
-            name: 'Chinese',
-            location: 'Downtown',
-            icon: <GiNoodles size={50} color="" />,
-            link: '/chinese'  // Link to the specific hotel page
-        },
-        {
-            img: cafeImg,
-            name: 'Cafe',
-            location: 'Uptown',
-            icon: <CiCoffeeCup size={50} color="#2c3e50" />,
-            link: '/cafe'  // Link to the specific hotel page
-        }
-    ];
+  useEffect(() => {
+    setIsLoggedIn(!!localStorage.getItem('token'));
+  }, []);
 
-    const handleExploreClick = (link) => {
-        navigate(link); // Use navigate instead of history.push
-    };
+  const handleCloseSignup = () => setShowSignup(false);
+  const handleShowSignup = () => setShowSignup(true);
 
-    return (
-        <div className="mainDiv">
-            {/* { <Navbar title="InstantPlate" />} */}
-            {/* Carousel Section */}
-            <Carousel fade={true} interval={3000} controls={false}>
-                <Carousel.Item>
-                    <img className="d-block w-100" src={slide1} alt="First slide" />
-                    <Carousel.Caption style={{ fontSize: '24px', fontFamily: 'Arial' }}>
-                        <h3 style={{ fontSize: '50px', fontFamily: 'Arial' }}>Delicious Meals Delivered</h3>
-                        <p style={{ fontSize: '20px', fontFamily: 'Arial' }}>Savor the best dishes from top restaurants.</p>
-                    </Carousel.Caption>
-                </Carousel.Item>
-    
-                <Carousel.Item>
-                    <img className="d-block w-100" src={slide2} alt="Second slide" />
-                    <Carousel.Caption style={{ fontSize: '24px', fontFamily: 'Arial' }}>
-                        <h3 style={{ fontSize: '50px', fontFamily: 'Arial' }}>Ready for You</h3>
-                        <p style={{ fontSize: '20px', fontFamily: 'Arial' }}>Your food is prepared fresh, just for you.</p>
-                    </Carousel.Caption>
-                </Carousel.Item>
-    
-                <Carousel.Item>
-                    <img className="d-block w-100" src={slide3} alt="Third slide" />
-                    <Carousel.Caption style={{ fontSize: '24px', fontFamily: 'Arial' }}>
-                        <h3 style={{ fontSize: '50px', fontFamily: 'Arial' }}>Treat Yourself</h3>
-                        <p style={{ fontSize: '20px', fontFamily: 'Arial' }}>Indulge in mouth-watering desserts and more.</p>
-                    </Carousel.Caption>
-                </Carousel.Item>
-            </Carousel>
+  const handleDemoClick = () => {
+    // Navigate to a demo restaurant link or standard slug
+    // We will use a mock restaurant ID or let them view a custom link
+    // Let's redirect to a specific demo endpoint, we'll explain it in the route
+    navigate('/menu/demo');
+  };
+
+  return (
+    <div style={{ background: 'var(--bg-dark-radial)', minHeight: '100vh', position: 'relative', overflow: 'hidden' }}>
+      
+      {/* Background radial spotlights */}
+      <div className="ambient-glow-purple" style={{ top: '-10%', left: '20%', width: '500px', height: '500px' }}></div>
+      <div className="ambient-glow-emerald" style={{ bottom: '-10%', right: '10%', width: '600px', height: '600px' }}></div>
+
+      {/* Hero Section */}
+      <div className="container" style={{ paddingTop: '160px', paddingBottom: '80px', position: 'relative', zIndex: 2 }}>
+        <div className="text-center max-w-3xl mx-auto d-flex flex-column align-items-center gap-3">
+          <div className="badge px-3 py-2 bg-purple-subtle border border-primary text-light mb-2" style={{ background: 'rgba(139, 92, 246, 0.1)', borderRadius: '9999px', fontSize: '0.9rem' }}>
+            ✨ Smart QR Menu & Order Operations SaaS
+          </div>
+          
+          <h1 className="display-3 fw-bold text-white mb-3" style={{ letterSpacing: '-1.5px', lineHeight: '1.1' }}>
+            Transform Your Dining Room <br />
+            Into a <span style={{ background: 'linear-gradient(135deg, #a78bfa 0%, #8B5CF6 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>Digital Experience</span>
+          </h1>
+          
+          <p className="lead text-secondary mb-4 mx-auto" style={{ maxWidth: '650px', fontSize: '1.2rem' }}>
+            InstantPlate helps restaurants, cafes, and hotels deploy interactive QR codes at tables. 
+            Empower guests to browse, customize items, call waitstaff, and place orders directly from their phones.
+          </p>
+
+          <div className="d-flex gap-3 justify-content-center mt-2">
+            {isLoggedIn ? (
+              <button onClick={() => navigate('/dashboard')} className="btn-glass-primary py-3 px-5 d-flex align-items-center gap-2" style={{ fontSize: '1.05rem' }}>
+                Go to Dashboard <FaArrowRight />
+              </button>
+            ) : (
+              <button onClick={handleShowSignup} className="btn-glass-primary py-3 px-5 d-flex align-items-center gap-2" style={{ fontSize: '1.05rem' }}>
+                Get Started for Free <FaArrowRight />
+              </button>
+            )}
             
-            <div className="choose-your-craving">
-                <h1>Choose Your Craving !!!</h1>
-            </div>
-    
-            {/* Cards Section */}
-            <div className="cards-container">
-                {cardsData.map((card, index) => (
-                    <Card className="card-item" key={index}>
-                        <div className="card-icon">{card.icon}</div>
-                        <div className="card-img-container">
-                            <img src={card.img} alt={card.name} className="card-img" />
-                        </div>
-                        <Card.Body>
-                            <Card.Title style={{ fontSize: '24px', fontFamily: 'Arial' }}>{card.name}</Card.Title>
-                            <Card.Text style={{ fontSize: '18px', fontFamily: 'Arial' }}>{card.location}</Card.Text>
-                            <Button variant="primary" onClick={() => handleExploreClick(card.link)}>
-                                Explore
-                            </Button>
-                        </Card.Body>
-                    </Card>
-                ))}
-            </div>
+            <button onClick={handleDemoClick} className="btn-glass-secondary py-3 px-5" style={{ fontSize: '1.05rem' }}>
+              Try Customer QR Menu Demo
+            </button>
+          </div>
         </div>
-    );
-};
+      </div>
 
-export default HomePage;
+      {/* Value Pillars Section */}
+      <div className="container py-5" style={{ position: 'relative', zIndex: 2 }}>
+        <div className="text-center mb-5">
+          <h2 className="fw-bold text-white">Full-Stack Dining Room Automation</h2>
+          <p className="text-secondary">All the tools required to build a premium guest experience</p>
+        </div>
+
+        <div className="row g-4">
+          {/* Pillar 1 */}
+          <div className="col-md-4">
+            <div className="glass-panel p-4 h-100 d-flex flex-column gap-3">
+              <div className="p-3 rounded-4 d-inline-block" style={{ background: 'rgba(139, 92, 246, 0.1)', color: '#a78bfa', width: 'fit-content' }}>
+                <FaQrcode size={28} />
+              </div>
+              <h4 className="fw-bold text-white m-0">Smart QR Table Cards</h4>
+              <p className="text-secondary m-0">
+                Generate table-specific QR codes instantly. Print cards for tables so customers scan and check out immediately with localized table identification.
+              </p>
+            </div>
+          </div>
+
+          {/* Pillar 2 */}
+          <div className="col-md-4">
+            <div className="glass-panel p-4 h-100 d-flex flex-column gap-3">
+              <div className="p-3 rounded-4 d-inline-block" style={{ background: 'rgba(16, 185, 129, 0.1)', color: '#34d399', width: 'fit-content' }}>
+                <FaClipboardList size={28} />
+              </div>
+              <h4 className="fw-bold text-white m-0">Live Kitchen Console</h4>
+              <p className="text-secondary m-0">
+                Incoming orders are immediately funneled to your kitchen feed. Advance orders from pending to cooking, to served, and keep guests synchronized on progress.
+              </p>
+            </div>
+          </div>
+
+          {/* Pillar 3 */}
+          <div className="col-md-4">
+            <div className="glass-panel p-4 h-100 d-flex flex-column gap-3">
+              <div className="p-3 rounded-4 d-inline-block" style={{ background: 'rgba(239, 68, 68, 0.1)', color: '#f87171', width: 'fit-content' }}>
+                <FaBell size={28} />
+              </div>
+              <h4 className="fw-bold text-white m-0">Instant Service Requests</h4>
+              <p className="text-secondary m-0">
+                Let customers summon waiters or request checkout invoices with payment preferences. Real-time visual alerts flash on the kitchen console.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Trust Quote / CTA */}
+      <div className="container py-5 text-center" style={{ position: 'relative', zIndex: 2 }}>
+        <div className="glass-panel p-5 max-w-4xl mx-auto" style={{ borderStyle: 'dashed' }}>
+          <h3 className="fw-bold text-white mb-3">Scale Your Operations and Save Up to 25% on Service Overhead</h3>
+          <p className="text-secondary mb-4 mx-auto" style={{ maxWidth: '600px' }}>
+            Join hundreds of restaurants streamlining their services and boosting cart sizes through dynamic add-on customizations.
+          </p>
+          <button onClick={handleShowSignup} className="btn-glass-primary px-4 py-2">
+            Build Your Interactive Menu Now
+          </button>
+        </div>
+      </div>
+
+      <Signup show={showSignup} handleClose={handleCloseSignup} />
+    </div>
+  );
+}

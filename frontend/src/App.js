@@ -5,20 +5,12 @@ import Navbar from './components/Navbar';
 import Signup from './components/Signup';
 import Login from './components/Login';
 import AboutUs from './components/AboutUs';
-import HotelsList from './components/HotelsList';
-import DhabaList from './components/DhabaList';
-import ChineseList from './components/ChineseList';
-import CafeList from './components/CafeList';
-
-import { ToastContainer } from 'react-toastify';
-
-import LandingPage from './components/LandingPage'
-
-import AddRestaurant from './components/AddRestaurant';
 import HomePage from './components/HomePage';
-import Receipt from './components/Receipt';
-
-import './App.css'
+import OwnerDashboard from './components/OwnerDashboard';
+import CustomerMenu from './components/CustomerMenu';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import './App.css';
 
 const App = () => {
   return (
@@ -26,17 +18,16 @@ const App = () => {
       <Navbar title="InstantPlate" />
       <div className="mt-1">
         <Routes>
-          <Route path="/demo" element={<LandingPage />} />
+          {/* Main B2B SaaS routes */}
           <Route path="/" element={<HomePage />} />
           <Route path="/about" element={<AboutUs />} />
           <Route path="/signup" element={<Signup handleClose={() => window.history.back()} />} />
           <Route path="/login" element={<Login handleClose={() => window.history.back()} />} />
-          <Route path="/addRestaurant" element={<AddRestaurant />} />
-          <Route path="/hotel" element={<HotelsList />} />
-          <Route path="/dhaba" element={<DhabaList />} />
-          <Route path="/chinese" element={<ChineseList />} />
-          <Route path="/cafe" element={<CafeList />} />
-          <Route path="/receipt" element={<Receipt />} />
+          <Route path="/dashboard" element={<OwnerDashboard />} />
+
+          {/* B2C Customer digital QR menu routes */}
+          <Route path="/demo" element={<CustomerMenu />} />
+          <Route path="/menu/:restaurantId" element={<CustomerMenu />} />
         </Routes>
         <ToastContainer position="top-right" autoClose={3000} hideProgressBar />
       </div>

@@ -1,0 +1,139 @@
+datasource db {
+  provider = "postgresql"
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id          String       @id @default(uuid())
+  email       String       @unique
+  password    String
+  role        Role         @default(OWNER)
+  restaurants Restaurant[]
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+}
+
+enum Role {
+  ADMIN
+  OWNER
+  STAFF
+}
+
+model Restaurant {
+  id              String           @id @default(uuid())
+  ownerId         String
+  owner           User             @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  name            String
+  slug            String           @unique
+  description     String?
+  logoUrl         String?
+  bannerUrl       String?
+  location        String?
+  contactNumber   String?
+  themeColor      String           @default("#8B5CF6")
+  tables          String[]         // Native PostgreSQL array type
+  menuSections    MenuSection[]
+  menuItems       MenuItem[]
+  orders          Order[]
+  serviceRequests ServiceRequest[]
+  feedbacks       Feedback[]
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+}
+
+model MenuSection {
+  id           String     @id @default(uuid())
+  restaurantId String
+  restaurant   Restaurant @relation(fields: [restaurantId], references: [id], onDelete: Cascade)
+  name         String
+  description  String?
+  sortOrder    Int        @default(0)
+  menuItems    MenuItem[]
+}
+
+model MenuItem {
+  id           String      @id @default(uuid())
+  restaurantId String
+  restaurant   Restaurant  @relation(fields: [restaurantId], references: [id], onDelete: Cascade)
+  sectionId    String
+  section      MenuSection @relation(fields: [sectionId], references: [id], onDelete: Cascade)
+  name         String
+  description  String?
+  price        Float
+  imageUrl     String?
+  isVeg        Boolean     @default(true)
+  isAvailable  Boolean     @default(true)
+  tags         String[]    // Native PostgreSQL array type
+  modifiers    Json?       // JSONB for dynamic option groups (e.g. Size, Toppings)
+  orderItems   OrderItem[]
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
+}
+
+model Order {
+  id           String      @id @default(uuid())
+  restaurantId String
+  restaurant   Restaurant  @relation(fields: [restaurantId], references: [id], onDelete: Cascade)
+  table        String
+  items        OrderItem[]
+  totalAmount  Float
+  notes        String?
+  status       OrderStatus @default(PENDING)
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
+}
+
+enum OrderStatus {
+  PENDING
+  PREPARING
+  SERVED
+  COMPLETED
+  CANCELLED
+}
+
+model OrderItem {
+  id                String   @id @default(uuid())
+  orderId           String
+  order             Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  menuItemId        String
+  menuItem          MenuItem @relation(fields: [menuItemId], references: [id])
+  name              String
+  price             Float
+  quantity          Int      @default(1)
+  selectedModifiers Json?    // JSONB for customer selections
+}
+
+model ServiceRequest {
+  id           String        @id @default(uuid())
+  restaurantId String
+  restaurant   Restaurant    @relation(fields: [restaurantId], references: [id], onDelete: Cascade)
+  table        String
+  type         RequestType
+  status       RequestStatus @default(PENDING)
+  paymentMethod String?
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+}
+
+enum RequestType {
+  WAITER
+  BILL
+}
+
+enum RequestStatus {
+  PENDING
+  RESOLVED
+}
+
+model Feedback {
+  id           String     @id @default(uuid())
+  restaurantId String
+  restaurant   Restaurant @relation(fields: [restaurantId], references: [id], onDelete: Cascade)
+  customerName String     @default("Anonymous")
+  rating       Int
+  comment      String?
+  createdAt    DateTime   @default(now())
+}
